@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.persister.collection.mutation.UpdateRowsCoordinator;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
@@ -40,4 +41,15 @@ public class Device {
 
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Configuration> configurations = new HashSet<>();
+
+
+    @PrePersist
+    protected void onCreate(){
+        this.creationDate = ZonedDateTime.now();
+    }
+
+    @PreUpdate
+    protected void  onUpdate(){
+        this.modificationDate = ZonedDateTime.now();
+    }
 }

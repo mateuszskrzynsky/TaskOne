@@ -30,4 +30,15 @@ public class Configuration {
     @Column(nullable = false, name = "MODIFICATION_DATE")
     private ZonedDateTime modificationDate;
 
+    @PrePersist
+    protected void onCreate(){
+        creationDate = ZonedDateTime.now();
+        this.modificationDate = this.creationDate;
+    }
+
+    @PreUpdate
+    protected void  onUpdate(){
+        this.modificationDate = ZonedDateTime.now();
+    }
+
 }
