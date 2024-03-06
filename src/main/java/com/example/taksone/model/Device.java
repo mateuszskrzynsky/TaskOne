@@ -1,20 +1,17 @@
 package com.example.taksone.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.lang.module.Configuration;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-
+@Data
+@Table(name = "DEVICE")
 public class Device {
 
 
@@ -22,23 +19,25 @@ public class Device {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 128)
-    private String deviceId;
+    @Column(unique = true, nullable = false, length = 128, name = "IDENTIFIER")
+    private String identifier;
 
-    @Column(nullable = false)
-    private LocalDateTime creationDate;
+    @Column(nullable = false, name = "CREATION_DATE")
+    private ZonedDateTime creationDate;
 
-    @Column(nullable = true)
-    private LocalDateTime modificationDate;
+    @Column(nullable = true,name = "MODIFICATION_DATE")
+    private ZonedDateTime modificationDate;
 
-    @Column(nullable = true)
-    private LocalDateTime activationDate;
+    @Column(nullable = true,name = "LAUNCH_DATE")
+    private ZonedDateTime launchDate;
 
-    @Column(nullable = true)
-    private LocalDateTime deactivationDate;
+    @Column(nullable = true, name = "SHUTDOWN_DATE")
+    private ZonedDateTime shutdownDate;
 
-    @Column
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-
+    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Configuration> configurations = new HashSet<>();
 }

@@ -4,26 +4,27 @@ import com.example.taksone.model.Configuration;
 import com.example.taksone.model.Device;
 import com.example.taksone.repository.ConfigurationRepository;
 import com.example.taksone.repository.DeviceRepository;
-import com.example.taksone.service.DeviceConfigurationService;
+import com.example.taksone.service.ConfigurationService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.mapping.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/configurations")
 @RequiredArgsConstructor
-public class DeviceConfigurationController {
-    private final DeviceConfigurationService service;
+@Tag(name = "Configuration Controller",description = "Endpoints for mapping configurations")
+public class ConfigurationController {
+    private final ConfigurationService service;
     private final DeviceRepository deviceRepository;
     private final ConfigurationRepository configurationRepository;
 
     @GetMapping("/get")
-    public ResponseEntity<List>getById(@RequestParam Long id){
+    public ResponseEntity<List> getById(@RequestParam Long id){
         List<Configuration> devices =
     }
 
